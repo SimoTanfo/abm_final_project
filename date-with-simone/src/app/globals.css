@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+/*
+  Palette: bianco rosato, inchiostro melanzana, un solo accento rosa intenso.
+  Raggi: i pulsanti principali sono a pillola, tutto il resto usa 16px (rounded-2xl).
+*/
+:root {
+  --paper: #fbf4f1;
+  --raised: #fffaf8;
+  --ink: #2a1b22;
+  --ink-soft: #5e4a53;
+  --line: #ead9d6;
+  --accent: #b3344e;
+  --accent-ink: #fff6f4;
+  --accent-soft: #f6e1e2;
+  --glow: rgb(214 92 116 / 0.16);
+  --danger: #a3302a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #170f13;
+    --raised: #21161b;
+    --ink: #f6eae7;
+    --ink-soft: #bfa9b0;
+    --line: #3a2830;
+    --accent: #ea7f93;
+    --accent-ink: #2a0f17;
+    --accent-soft: #3a1e27;
+    --glow: rgb(234 127 147 / 0.12);
+    --danger: #f19a8f;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist);
+  --font-display: var(--font-cormorant);
+}
+
+html {
+  color-scheme: light dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Luce calda in alto, fissa e non interattiva */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 32rem at 85% -10%, var(--glow), transparent 70%),
+    radial-gradient(40rem 26rem at -10% 110%, var(--glow), transparent 70%);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-feature-settings: "liga", "dlig";
+}
+
+/* Comparsa morbida in sequenza: usa style={{ "--d": "120ms" }} per ritardare */
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .fade {
+    animation: fade 0.5s ease-out both;
+    animation-delay: var(--d, 0ms);
+  }
+  .pop {
+    animation: pop 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Un solo saluto della mano all'apertura */
+@media (prefers-reduced-motion: no-preference) {
+  .wave {
+    display: inline-block;
+    transform-origin: 70% 75%;
+    animation: wave 1.6s ease-in-out 0.6s 1 both;
+  }
+}
+
+@keyframes wave {
+  0%, 60%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
